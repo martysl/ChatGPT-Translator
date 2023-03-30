@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#f9f9f9" />
+        <script
+            src="https://cdn.jsdelivr.net/npm/@twemoji/api@latest/dist/twemoji.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="./style/reset.css" />
+        <link rel="stylesheet" href="./style/style.css" />
+        <style>
+            img.emoji {
+                height: 1em;
+                width: 1em;
+                margin: 0 0.05em 0 0.1em;
+                vertical-align: -0.1em;
+                pointer-events: none;
+            }
+        </style>
+        <title>ChatGPTranslate</title>
+    </head>
+    <body>
+        <header>
+            <h1>ChatGPTranslate</h1>
+            <button id="modal-btn">⚙️</button>
+        </header>
+        <main>
+            <textarea
+                id="source-text"
+                autocomplete="off"
+                spellcheck="false"
+            ></textarea>
+            <div class="btn-container">
+                <form>
+                    <button type="button" id="translate-btn" class="" disabled>
+                        Translate
+                    </button>
+                    <select id="target-lang">
+                        <option value="" selected>Select a language</option>
+                    </select>
+                    <select id="style-select"></select>
+                </form>
+            </div>
+            <textarea
+                id="target-text"
+                placeholder="Translation"
+                autocomplete="off"
+                spellcheck="false"
+                readonly
+            ></textarea>
+            <p id="completion-info">
+                The number of tokens used and the fee are displayed here.
+            </p>
+            <p id="usage-info">
+                This month's usage fee will be displayed here.
+            </p>
+        </main>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-titlebar">
+                        <h1>Setting</h1>
+                        <button type="button" class="" id="modal-close">
+                            &times;
+                        </button>
+                    </div>
+                    <p>All settings are saved locally using Local Storage.</p>
+                </div>
+                <div class="btn-container">
+                    <form action="">
+                        <button type="button" id="setting-save">Save</button>
+                        <button type="button" id="setting-reset">Reset</button>
+                    </form>
+                </div>
+                <!-- Setting list -->
+                <div class="setting-container">
+                    <div class="setting-left">
+                        <div class="setting-emoji">🔑</div>
+                        <div class="setting-title">
+                            <p>OpenAI API Key</p>
+                            <p class="setting-desc">
+                                Enter the API key obtained from OpenAI.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="setting-key">
+                        <input placeholder="" type="password" id="api-key" />
+                    </div>
+                </div>
+                <!-- <div class="setting-container">
+                    <div class="setting-left">
+                        <div class="setting-emoji">💬</div>
+                        <div class="setting-title">
+                            <p>Custom prompt</p>
+                            <p class="setting-desc">
+                                Lorem ipsum, dolor sit amet consectetur.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="setting-key">
+                        <input placeholder="" type="checkbox" id="" />
+                    </div>
+                </div> -->
+                <!-- Setting list end -->
+                <div class="modal-footer">
+                    <p>
+                        Press the button on the upper right to close this
+                        window.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- <footer>
+                <p>Copyright &copy; 2023</p>
+        </footer> -->
+        <script>
+            twemoji.parse(document.body);
+        </script>
+        <script src="./script/setting.js"></script>
+        <script src="./script/core.js"></script>
+        <script src="./script/main.js"></script>
+    </body>
+</html>

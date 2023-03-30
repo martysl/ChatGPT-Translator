@@ -1,0 +1,295 @@
+@charset "UTF-8";
+html {
+  height: 100%;
+  margin: auto;
+  min-width: 320px;
+  max-width: 1200px;
+}
+
+* {
+  --sb-track-color: #0000;
+  --sb-thumb-color: #8a8a8a;
+  --sb-size: 4px;
+  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+}
+
+*::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 10px;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  -webkit-margin-before: 16px;
+          margin-block-start: 16px;
+  -webkit-margin-after: 0;
+          margin-block-end: 0;
+  color: #000;
+}
+
+main {
+  flex-grow: 1;
+  margin-block: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  box-sizing: border-box;
+  resize: none;
+  height: 10em;
+  padding: 16px;
+  color: #000;
+  background-color: #fdfdfd;
+  border: 1px solid #eaeaea;
+  -webkit-border-after: 1px solid #919493;
+          border-block-end: 1px solid #919493;
+  border-radius: 6px;
+  transition: -webkit-border-after 0.1s ease-out;
+  transition: border-block-end 0.1s ease-out;
+  transition: border-block-end 0.1s ease-out, -webkit-border-after 0.1s ease-out;
+}
+textarea:focus {
+  -webkit-border-after: 2px solid #556772;
+          border-block-end: 2px solid #556772;
+}
+textarea::selection {
+  background-color: #617884;
+  color: #fff;
+}
+main textarea {
+  flex-grow: 1;
+}
+
+#completion-info {
+  font-size: 12px;
+  color: #7c7c7c;
+  margin: 0;
+  -webkit-margin-before: 16px;
+          margin-block-start: 16px;
+}
+
+#usage-info {
+  font-size: 12px;
+  color: #7c7c7c;
+  margin: 0;
+  -webkit-margin-before: 4px;
+          margin-block-start: 4px;
+}
+
+button {
+  height: 34px;
+  padding: 4px 12px;
+  color: #000;
+  background-color: #fdfdfd;
+  border: 1px solid #eaeaea;
+  -webkit-border-after: 1px solid #919493;
+          border-block-end: 1px solid #919493;
+  border-radius: 6px;
+}
+button[disabled] {
+  background-color: #f5f5f5;
+  color: #9d9d9d;
+  border: 1px solid #e5e5e5;
+}
+button.painted {
+  color: #fff;
+  background-color: #4c5f6b;
+  border: 1px solid #4c5f6b;
+  -webkit-border-after: 1px solid #323e46;
+          border-block-end: 1px solid #323e46;
+}
+
+.btn-container {
+  margin-block: 8px;
+}
+.btn-container form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+select {
+  height: 34px;
+  padding-inline: 6px;
+  color: #000;
+  background-color: #fdfdfd;
+  border: 1px solid #eaeaea;
+  -webkit-border-after: 1px solid #d8d8d8;
+          border-block-end: 1px solid #d8d8d8;
+  border-radius: 6px;
+}
+
+footer {
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
+  -webkit-margin-after: 16px;
+          margin-block-end: 16px;
+  color: #000;
+}
+
+/* モーダルウィンドウのスタイル */
+.modal {
+  display: none; /* 初期状態では非表示にする */
+  position: fixed; /* 画面に固定する */
+  z-index: 1; /* 他の要素よりも前面に表示する */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* コンテンツが画面に収まらない場合にスクロールバーを表示する */
+  background-color: rgba(0, 0, 0, 0.25); /* 背景を半透明にする。オパシティの数値を変更 */
+  -webkit-animation: modalopen 0.2s;
+          animation: modalopen 0.2s; /* アニメーションをまとめて指定 */
+}
+
+.modal-content {
+  min-width: 320px;
+  max-width: 800px;
+  background-color: #f9f9f9;
+  color: #000;
+  box-shadow: 0px 32px 32px -16px rgba(0, 0, 0, 0.25);
+  margin: 32px auto; /* 画面中央に配置する */
+  padding-block: 20px;
+  padding-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  transition: border-radius 0.1s ease-out;
+}
+@media screen and (max-width: 800px) {
+  .modal-content {
+    border-inline: none;
+    border-radius: 0px;
+  }
+}
+
+input#api-key {
+  width: 100%;
+  height: 34px;
+  box-sizing: border-box;
+  padding-inline: 6px;
+  color: #000;
+  background-color: #fdfdfd;
+  border: 1px solid #eaeaea;
+  -webkit-border-after: 1px solid #919493;
+          border-block-end: 1px solid #919493;
+  border-radius: 6px;
+  transition: -webkit-border-after 0.1s ease-out;
+  transition: border-block-end 0.1s ease-out;
+  transition: border-block-end 0.1s ease-out, -webkit-border-after 0.1s ease-out;
+}
+input#api-key:focus {
+  -webkit-border-after: 2px solid #556772;
+          border-block-end: 2px solid #556772;
+}
+input#api-key::selection {
+  background-color: #617884;
+  color: #fff;
+}
+
+.modal-content .modal-header,
+.modal-content .modal-footer {
+  margin-block: 8px; /* margin-block -> margin-bottom */
+  flex-direction: column;
+  /* モーダルタイトルバーのスタイル */
+  /* モーダルヘッダー内のテキストのスタイル */
+}
+.modal-content .modal-header .modal-titlebar,
+.modal-content .modal-footer .modal-titlebar {
+  margin-block: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.modal-content .modal-header p,
+.modal-content .modal-footer p {
+  font-size: 12px;
+  color: #5f5f5f;
+}
+
+.setting-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #fdfdfd;
+  margin-block: 8px;
+  padding: 16px;
+  border: 1px solid #eaeaea;
+  border-radius: 6px;
+}
+@media screen and (max-width: 800px) {
+  .setting-container {
+    flex-direction: column;
+  }
+  .setting-container .setting-title {
+    -webkit-margin-after: 8px;
+            margin-block-end: 8px;
+  }
+}
+.setting-container .setting-left {
+  display: flex;
+  align-items: start;
+}
+.setting-container .setting-left img.emoji {
+  height: 24px;
+  width: 24px;
+  margin: 9px;
+  -webkit-margin-end: 16px;
+          margin-inline-end: 16px;
+}
+.setting-container p.setting-desc {
+  font-size: 12px;
+  color: #606060;
+}
+
+.setting-key {
+  -webkit-margin-start: 8px;
+          margin-inline-start: 8px;
+  margin-block: auto;
+  min-width: 50%;
+}
+@media screen and (max-width: 800px) {
+  .setting-key {
+    -webkit-margin-start: 0px;
+            margin-inline-start: 0px;
+    width: 100%;
+  }
+}
+
+/* モーダルウィンドウが表示されたときのアニメーション */
+@-webkit-keyframes modalopen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes modalopen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}/*# sourceMappingURL=style.css.map */
