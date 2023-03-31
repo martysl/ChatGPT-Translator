@@ -1,18 +1,47 @@
+// 設定のUI要素変換
+
+function ohSoSarcasticTransformation() {
+    const containers = document.querySelectorAll(".setting-container");
+
+    containers.forEach((container) => {
+        const icon = container.dataset.icon;
+        const title = container.dataset.title;
+        const desc = container.dataset.desc;
+
+        container.innerHTML = `
+    <div class="setting-left">
+      <div class="setting-emoji">${icon}</div>
+      <div class="setting-title">
+        <p>${title}</p>
+        <p class="setting-desc">${desc}</p>
+      </div>
+    </div>
+    <div class="setting-key">${container.innerHTML.trim()}</div>
+  `;
+    });
+}
+
+ohSoSarcasticTransformation();
+
 const translateButton = document.getElementById("translate-btn");
 translateButton.addEventListener("click", translateText);
 
-const apikeyInput = document.getElementById("api-key");
-const targetTextarea = document.getElementById("target-text");
-const sourceTextarea = document.getElementById("source-text");
+const apikeyInput = document.querySelector("#api-key");
+const targetTextarea = document.querySelector("#target-text");
+const sourceTextarea = document.querySelector("#source-text");
 // const temperatureInput = document.getElementById("temperature")
-const completionInfoElem = document.getElementById("completion-info");
-const usageInfoElem = document.getElementById("usage-info");
+const completionInfoElem = document.querySelector("#completion-info");
+const usageInfoElem = document.querySelector("#usage-info");
 
-const languageSelect = document.getElementById("target-lang");
-const styleSelect = document.getElementById("style-select");
+const languageSelect = document.querySelector("#target-lang");
+const styleSelect = document.querySelector("#style-select");
 
 const settingSaveButton = document.querySelector("#setting-save");
 const settingResetButton = document.querySelector("#setting-reset");
+
+const notificationTestButton = document.getElementById(
+    "notification-test-button"
+);
 
 function generateOptions(value, text) {
     const option = document.createElement("option");
@@ -339,7 +368,7 @@ async function translateText() {
 
 translateButton.addEventListener("click", translateText);
 
-// ボタンを取得する
+// モーダル制御
 const modalBtn = document.querySelector("#modal-btn");
 const modal = document.querySelector("#modal");
 const closeBtn = document.querySelector("#modal-close");
@@ -378,37 +407,36 @@ function initializeSettings() {
     setLocalStorage(defaultSettingsData);
 }
 
-function isFirstVisit() {
+// 初回訪問判定
+
+function checkFirstVisit() {
     const isFirstVisit = getLocalStorage([
-        `storage_isFirstVisit`,
+        "storage_isFirstVisit",
     ]).storage_isFirstVisit;
 
-    if (typeof isFirstVisit !== "boolean") {
-        console.log("first visit");
-        initializeSettings();
-        modal.style.display = "block";
-    } else if (isFirstVisit) {
-        console.log("first visit (override)");
+    if (typeof isFirstVisit !== "boolean" || isFirstVisit) {
         initializeSettings();
         modal.style.display = "block";
     } else {
-        console.log("not first visit");
         apikeyInput.value = `${
-            getLocalStorage([`storage_apikey`]).storage_apikey
+            getLocalStorage(["storage_apikey"]).storage_apikey
         }`;
         updateUsage();
         return;
     }
+
+    setLocalStorage({ storage_isFirstVisit: false });
     createNotification(
         "default",
         "You need to set up your API key before using ChatGPTranslate.",
         10000,
         true
     );
-    setLocalStorage({ storage_isFirstVisit: false });
 }
 
-isFirstVisit();
+checkFirstVisit();
+
+// 設定制御
 
 settingSaveButton.addEventListener("click", () => {
     const data = {
@@ -430,4 +458,15 @@ settingResetButton.addEventListener("click", () => {
     setTimeout(() => {
         window.location.reload();
     }, 5000);
+});
+
+notificationTestButton.addEventListener("click", () => {
+    const content = document.querySelector("#notification-test-content").value;
+    const type = document.querySelector("#notification-test-list").options[
+        document.querySelector("#notification-test-list").selectedIndex
+    ].value;
+    const duration = document.querySelector(
+        "#notification-test-duration"
+    ).value;
+    createNotification(type, content, duration, true);
 });

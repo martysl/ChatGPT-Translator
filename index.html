@@ -76,34 +76,53 @@
                     </form>
                 </div>
                 <!-- Setting list -->
-                <div class="setting-container">
-                    <div class="setting-left">
-                        <div class="setting-emoji">🔑</div>
-                        <div class="setting-title">
-                            <p>OpenAI API Key</p>
-                            <p class="setting-desc">
-                                Enter the API key obtained from OpenAI.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="setting-key">
-                        <input placeholder="" type="password" id="api-key" />
+                <div
+                    class="setting-container"
+                    data-icon="🔑"
+                    data-title="OpenAI API Key"
+                    data-desc="Enter the API key obtained from OpenAI."
+                >
+                    <input
+                        placeholder=""
+                        type="password"
+                        id="api-key"
+                        class="wide"
+                    />
+                </div>
+                <p>Debug</p>
+                <div
+                    class="setting-container"
+                    data-icon="🔔"
+                    data-title="Notification test"
+                    data-desc="Testing notification function."
+                >
+                    <input
+                        placeholder="Notification content"
+                        type="text"
+                        value="Notification content"
+                        id="notification-test-content"
+                        class="wide"
+                    />
+                    <div class="btn-container">
+                        <input
+                            placeholder="Duration"
+                            type="number"
+                            min="0"
+                            value="5000"
+                            id="notification-test-duration"
+                        />
+                        <!-- <p>ms</p> -->
+                        <select id="notification-test-list">
+                            <option value="default">Default</option>
+                            <option value="success">Success</option>
+                            <option value="warning">Warning</option>
+                            <option value="error">Error</option>
+                        </select>
+                        <button type="button" id="notification-test-button">
+                            Test
+                        </button>
                     </div>
                 </div>
-                <!-- <div class="setting-container">
-                    <div class="setting-left">
-                        <div class="setting-emoji">💬</div>
-                        <div class="setting-title">
-                            <p>Custom prompt</p>
-                            <p class="setting-desc">
-                                Lorem ipsum, dolor sit amet consectetur.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="setting-key">
-                        <input placeholder="" type="checkbox" id="" />
-                    </div>
-                </div> -->
                 <!-- Setting list end -->
                 <div class="modal-footer">
                     <p>
@@ -119,12 +138,13 @@
         <!-- <footer>
                 <p>Copyright &copy; 2023</p>
         </footer> -->
-        <script>
-            twemoji.parse(document.body);
-        </script>
+
         <script src="./script/setting.js"></script>
         <script src="./script/core.js"></script>
         <script src="./script/notification.js"></script>
         <script src="./script/main.js"></script>
+        <script>
+            twemoji.parse(document.body);
+        </script>
     </body>
 </html>
