@@ -461,7 +461,9 @@ settingResetButton.addEventListener("click", () => {
 });
 
 notificationTestButton.addEventListener("click", () => {
-    const content = document.querySelector("#notification-test-content").value;
+    const content = DOMPurify.sanitize(
+        document.querySelector("#notification-test-content").value
+    );
     const type = document.querySelector("#notification-test-list").options[
         document.querySelector("#notification-test-list").selectedIndex
     ].value;
