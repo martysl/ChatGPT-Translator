@@ -153,7 +153,6 @@ footer {
         0,
         0.25
     ); /* 背景を半透明にする。オパシティの数値を変更 */
-    animation: modalopen 0.2s; /* アニメーションをまとめて指定 */
 }
 
 // モーダルコンテンツのスタイル
@@ -264,5 +263,141 @@ input#api-key {
     }
     to {
         opacity: 1;
+    }
+}
+
+/* 通知 */
+
+#notification-container {
+    position: fixed;
+    bottom: 0;
+    // right: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    // align-items: flex-end;
+    align-items: flex-start;
+    padding-inline: 1rem;
+    padding-block-end: 0.5em;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.notification {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #000;
+    min-height: 32px;
+    padding: 12px;
+    padding-inline-end: 16px;
+    padding-block: 10px;
+    padding-block-end: 24px; /* for time */
+    border-radius: 6px;
+    margin-block-end: 0.5rem;
+    font-size: 1rem;
+    // max-width: 600px;
+    word-wrap: break-word;
+    border: 1px solid;
+    box-shadow: 0px 16px 32px -16px rgba(0, 0, 0, 0.5);
+    p {
+        line-height: 1.5rem;
+        margin: 0;
+        // margin-inline-end: 8px;
+    }
+    //通知のスタイル
+    &.notification-success {
+        border-color: #0f7b0f;
+        background-color: #dff6dd;
+    }
+    &.notification-warning {
+        border-color: #9d5d00;
+        background-color: #fff4ce;
+    }
+    &.notification-error {
+        border-color: #c42b1c;
+        background-color: #fde7e9;
+    }
+    &.notification-default {
+        border-color: #8a8a8a;
+        background-color: #f3f3f3;
+    }
+}
+
+.notification-icon {
+    // margin-inline-end: 0.5rem;
+    font-size: 1.25rem;
+    display: flex;
+    img.emoji {
+        height: 16px;
+        min-width: 16px;
+        width: 16px;
+    }
+}
+
+.notification-time {
+    position: absolute;
+    left: 34px;
+    bottom: 0;
+    margin: 6px;
+    margin-inline-end: 8px;
+    font-size: 8px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+    height: auto;
+    font-size: 1.25rem;
+    color: #000;
+    // margin-left: 0.5rem;
+    padding: 0;
+    cursor: pointer;
+}
+
+.close-button:focus {
+    outline: none;
+}
+
+@keyframes fadeIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
     }
 }

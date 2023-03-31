@@ -160,8 +160,6 @@ footer {
   height: 100%;
   overflow: auto; /* コンテンツが画面に収まらない場合にスクロールバーを表示する */
   background-color: rgba(0, 0, 0, 0.25); /* 背景を半透明にする。オパシティの数値を変更 */
-  -webkit-animation: modalopen 0.2s;
-          animation: modalopen 0.2s; /* アニメーションをまとめて指定 */
 }
 
 .modal-content {
@@ -291,5 +289,182 @@ input#api-key::selection {
   }
   to {
     opacity: 1;
+  }
+}
+/* 通知 */
+#notification-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  padding-inline: 1rem;
+  -webkit-padding-after: 0.5em;
+          padding-block-end: 0.5em;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #000;
+  min-height: 32px;
+  padding: 12px;
+  -webkit-padding-end: 16px;
+          padding-inline-end: 16px;
+  padding-block: 10px;
+  -webkit-padding-after: 24px;
+          padding-block-end: 24px; /* for time */
+  border-radius: 6px;
+  -webkit-margin-after: 0.5rem;
+          margin-block-end: 0.5rem;
+  font-size: 1rem;
+  word-wrap: break-word;
+  border: 1px solid;
+  box-shadow: 0px 16px 32px -16px rgba(0, 0, 0, 0.5);
+}
+.notification p {
+  line-height: 1.5rem;
+  margin: 0;
+}
+.notification.notification-success {
+  border-color: #0f7b0f;
+  background-color: #dff6dd;
+}
+.notification.notification-warning {
+  border-color: #9d5d00;
+  background-color: #fff4ce;
+}
+.notification.notification-error {
+  border-color: #c42b1c;
+  background-color: #fde7e9;
+}
+.notification.notification-default {
+  border-color: #8a8a8a;
+  background-color: #f3f3f3;
+}
+
+.notification-icon {
+  font-size: 1.25rem;
+  display: flex;
+}
+.notification-icon img.emoji {
+  height: 16px;
+  min-width: 16px;
+  width: 16px;
+}
+
+.notification-time {
+  position: absolute;
+  left: 34px;
+  bottom: 0;
+  margin: 6px;
+  -webkit-margin-end: 8px;
+          margin-inline-end: 8px;
+  font-size: 8px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.close-button {
+  background-color: transparent;
+  border: none;
+  height: auto;
+  font-size: 1.25rem;
+  color: #000;
+  padding: 0;
+  cursor: pointer;
+}
+
+.close-button:focus {
+  outline: none;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeOut {
+  from {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+@keyframes fadeOut {
+  from {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes modalFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }/*# sourceMappingURL=style.css.map */

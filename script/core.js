@@ -46,7 +46,7 @@ class ChatCompletion {
                 // console.error(`Status code: ${response.status}`);
                 if (response.status === 401) {
                     throw new Error(
-                        `Failed to fetch from OpenAI API (Did you input the API key correctly?): \n${errorMessage}`
+                        `Failed to fetch from OpenAI API (Is the API key correctly configured?): \n${errorMessage}`
                     );
                 }
                 throw new Error(
@@ -140,7 +140,7 @@ class openaiUsage {
                 // console.error(`Status code: ${response.status}`);
                 if (response.status === 401) {
                     throw new Error(
-                        `Failed to fetch from OpenAI API (Did you input the API key correctly?): \n${errorMessage}`
+                        `Failed to fetch from OpenAI API (Is the API key correctly configured?): \n${errorMessage}`
                     );
                 }
                 throw new Error(

@@ -190,7 +190,7 @@ languageData.forEach((language) => {
 /* スタイルリスト(select)を生成するやつ */
 
 const styleData = [
-    { style: "", prompt: "", name: "None" },
+    { style: "", prompt: "", name: "Default" },
     { style: "novel", prompt: " for the novel", name: "Novel" },
     { style: "twitter", prompt: " for the twitter", name: "Twitter" },
     { style: "wiki", prompt: " for the wiki", name: "Wiki" },
@@ -272,6 +272,12 @@ async function updateUsage() {
         )}: ${orgFloor(result.usageUSD, 4)} USD`;
     } catch (error) {
         console.error(error);
+        createNotification(
+            "error",
+            "Failed to retrieve usage status from OpenAI API.",
+            10000,
+            true
+        );
         usageInfoElem.innerHTML = placeholder;
     }
 }
@@ -286,9 +292,11 @@ async function translateText() {
     //内容の削除
     //TODO:インジケーター表示
     //結果で上書き
-    targetTextarea.value = "";
+
     const placeholder = targetTextarea.placeholder;
+    const infoText = completionInfoElem.innerHTML;
     targetTextarea.placeholder = "Translating...";
+    targetTextarea.value = "";
     completionInfoElem.innerHTML = "...";
 
     const translator = new Translator(
@@ -311,8 +319,14 @@ async function translateText() {
         // , ${orgFloor(0.000002 * result.total_tokens * 130, 3)} JPY
     } catch (error) {
         console.error(error);
+        createNotification(
+            "error",
+            "Translation failed. The API key may not be set up correctly. Please check the console for more information.",
+            10000,
+            true
+        );
         targetTextarea.value = `Error: An error has occurred. Please check the console for details.`;
-        completionInfoElem.innerHTML = `Translation failed.`;
+        completionInfoElem.innerHTML = `${infoText}`;
     }
 
     targetTextarea.placeholder = `${placeholder}`;
@@ -330,13 +344,22 @@ const modalBtn = document.querySelector("#modal-btn");
 const modal = document.querySelector("#modal");
 const closeBtn = document.querySelector("#modal-close");
 
+const modalInDuration = 200;
+const modalOutDuration = 200;
+const modalInAnimation = `modalFadeIn ${modalInDuration}ms ease-out forwards`;
+const modalOutAnimation = `modalFadeOut ${modalOutDuration}ms ease-out forwards`;
+
 // モーダル表示/非表示
 modalBtn.addEventListener("click", () => {
     modal.style.display = "block";
+    modal.style.animation = `${modalInAnimation}`;
 });
 
 closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
+    modal.style.animation = `${modalOutAnimation}`;
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, modalOutDuration);
 });
 
 // モーダルの外側をクリックしたときにも非表示にする
@@ -374,8 +397,14 @@ function isFirstVisit() {
             getLocalStorage([`storage_apikey`]).storage_apikey
         }`;
         updateUsage();
+        return;
     }
-
+    createNotification(
+        "default",
+        "You need to set up your API key before using ChatGPTranslate.",
+        10000,
+        true
+    );
     setLocalStorage({ storage_isFirstVisit: false });
 }
 
@@ -386,10 +415,19 @@ settingSaveButton.addEventListener("click", () => {
         storage_apikey: `${apikeyInput.value}`,
     };
     setLocalStorage(data);
+    createNotification("success", "Settings have been saved.", 5000, false);
     updateUsage();
 });
 
 settingResetButton.addEventListener("click", () => {
     initializeSettings();
-    window.location.reload();
+    createNotification(
+        "success",
+        "Settings have been reset. Site will be reloaded in five seconds...",
+        5000,
+        false
+    );
+    setTimeout(() => {
+        window.location.reload();
+    }, 5000);
 });
