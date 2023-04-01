@@ -28,6 +28,7 @@ html {
 }
 
 body {
+    color: #000;
     height: 100%;
     margin: 0;
     //display: flex;
@@ -217,7 +218,6 @@ $modal-small-width: 800px;
 
 .modal-content .modal-header {
     margin-block: 8px;
-
     /* モーダルタイトルバーのスタイル */
     .modal-titlebar {
         margin-block: 8px;
