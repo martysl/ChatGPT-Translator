@@ -1,3 +1,9 @@
+import { LocalStorageHandler } from "./lib/setting.js";
+import { createNotification } from "./lib/notification.js";
+import { Translator, openaiUsage } from "./lib/core.js";
+
+const ls = new LocalStorageHandler();
+
 // 設定のUI要素変換
 
 function ohSoSarcasticTransformation() {
@@ -321,11 +327,11 @@ function numToMonth(number) {
 }
 
 async function updateUsage() {
-    placeholder = usageInfoElem.innerHTML;
+    const placeholder = usageInfoElem.innerHTML;
     usageInfoElem.innerHTML = "...";
 
     const usage = new openaiUsage(
-        `${getLocalStorage([`storage_apikey`]).storage_apikey}`
+        `${ls.get([`storage_apikey`]).storage_apikey}`
     );
 
     try {
@@ -364,7 +370,7 @@ async function translateText() {
 
     const translator = new Translator(
         "gpt-3.5-turbo-0301",
-        `${getLocalStorage([`storage_apikey`]).storage_apikey}`
+        `${ls.get([`storage_apikey`]).storage_apikey}`
     );
 
     try {
@@ -441,28 +447,24 @@ const defaultSettingsData = {
 };
 
 function initializeSettings() {
-    setLocalStorage(defaultSettingsData);
+    ls.set(defaultSettingsData);
 }
 
 // 初回訪問判定
 
 function checkFirstVisit() {
-    const isFirstVisit = getLocalStorage([
-        "storage_isFirstVisit",
-    ]).storage_isFirstVisit;
+    const isFirstVisit = ls.get(["storage_isFirstVisit"]).storage_isFirstVisit;
 
     if (typeof isFirstVisit !== "boolean" || isFirstVisit) {
         initializeSettings();
         modal.style.display = "block";
     } else {
-        apikeyInput.value = `${
-            getLocalStorage(["storage_apikey"]).storage_apikey
-        }`;
+        apikeyInput.value = `${ls.get(["storage_apikey"]).storage_apikey}`;
         updateUsage();
         return;
     }
 
-    setLocalStorage({ storage_isFirstVisit: false });
+    ls.set({ storage_isFirstVisit: false });
     createNotification(
         "default",
         "You need to set up your API key before using ChatGPTranslate.",
@@ -479,7 +481,7 @@ settingSaveButton.addEventListener("click", () => {
     const data = {
         storage_apikey: `${apikeyInput.value}`,
     };
-    setLocalStorage(data);
+    ls.set(data);
     createNotification("success", "Settings have been saved.", 5000, false);
     updateUsage();
 });
@@ -509,3 +511,5 @@ notificationTestButton.addEventListener("click", () => {
     ).value;
     createNotification(type, content, duration, true);
 });
+
+twemoji.parse(document.body);

@@ -1,3 +1,5 @@
+export { createNotification };
+
 /**
  * Returns the current time as a formatted string.
  *

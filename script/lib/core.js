@@ -1,3 +1,5 @@
+export { Translator, openaiUsage };
+
 /**
  * ChatCompletion class for interacting with the OpenAI API.
  */
@@ -21,7 +23,7 @@ class ChatCompletion {
      * @param {string} options.prompt - The user input prompt for the AI to respond to.
      * @param {number} [options.temperature=1] - Controls the randomness of the AI's response (0 to 1).
      * @param {string} [options.stop=""] - The stopping sequence for the AI's response.
-     * @returns {Promise<Object>} An object containing the generated text, total tokens, and processing time.
+     * @returns {Promise<Object>} An object containing the generated `text`, `total_tokens`, and `processing_time`.
      * @throws {Error} If any of the arguments are invalid or if there is an error in communication with the API.
      */
     async create({ sysPrompt = "", prompt, temperature = 1, stop = "" }) {
@@ -109,7 +111,7 @@ class Translator extends ChatCompletion {
      * @param {number} [options.temperature=1] - Controls the randomness of the AI's response (0 to 1).
      * @param {string} [options.style=""] - The style of the text to be translated.
      * @param {string} [options.overridePrompt] - Optional custom prompt for the AI.
-     * @returns {Promise<Object>} An object containing the translated text, total tokens, and processing time.
+     * @returns {Promise<Object>} An object containing the translated `text`, `total_tokens`, and `processing_time`.
      * @throws {Error} If any of the arguments are invalid or if there is an error in communication with the API.
      */
     async translate({
@@ -132,7 +134,6 @@ class Translator extends ChatCompletion {
         }
 
         console.log(`Target langage: ${targetLang}\nStyle: ${style}`);
-        // const prompt = `You are a great translator and a native ${targetLang} speaker.\nThe following is a part of the ${style} text. Please translate the following text to ${targetLang} for the ${style} text. If the Text and target language are the same, please inform the user succinctly that there is no need to translate.\n\nText\n----------\n${text}\n---------\n\nTranslated text\n---------`;
         const prompt = overridePrompt
             ? overridePrompt
             : `You are a great translator and a native ${targetLang} speaker.\nThe following is a part of the ${style} text. Please translate the following text to ${targetLang} for the ${style} text. Insert [TRANSLATE.DONE] at the end\n\nText\n----------\n${text}\n---------\n\nTranslated text\n---------`;
@@ -145,12 +146,25 @@ class Translator extends ChatCompletion {
     }
 }
 
+/**
+ * Class representing usage of the OpenAI API.
+ */
 class openaiUsage {
+    /**
+     * Create an openaiUsage instance.
+     * @param {string} apiKey - The API key for the OpenAI API.
+     */
     constructor(apiKey) {
         this.apiKey = apiKey;
         this.url = "https://api.openai.com/dashboard/billing/usage";
     }
 
+    /**
+     * Fetches and returns the usage data for the current month.
+     * @async
+     * @returns {Promise<Object>} An object containing the `usage` in USD, `year`, and `month`.
+     * @throws {Error} Throws an error if the API call fails.
+     */
     async getMonthUsage() {
         const date = new Date(Date.now());
         const year = date.getFullYear();
