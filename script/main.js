@@ -43,6 +43,13 @@ const notificationTestButton = document.getElementById(
     "notification-test-button"
 );
 
+/**
+ * Creates an HTML option element with the given value and text.
+ *
+ * @param {string} value - The value of the option.
+ * @param {string} text - The text to display for the option.
+ * @returns {HTMLOptionElement} The HTML option element.
+ */
 function generateOptions(value, text) {
     const option = document.createElement("option");
     option.value = value;
@@ -230,7 +237,13 @@ styleData.forEach((param) => {
 });
 
 // 指定スタイルのプロンプトをgetする
-// console.log(getStylePrompt("novel", supportedStyles)); // 出力: " for the novel"
+/**
+ * Returns the prompt associated with the given style.
+ *
+ * @param {string} style - The style to search for in the styles array.
+ * @param {Array<{style: string, prompt: string}>} styles - An array of style objects containing style and prompt properties.
+ * @returns {string} - The prompt associated with the given style, or an empty string if the style is not found.
+ */
 function getStylePrompt(style, styles) {
     const foundStyle = styles.find((item) => item.style === style);
     return foundStyle ? foundStyle.prompt : "";
@@ -255,13 +268,34 @@ languageSelect.addEventListener("change", updateTranslateButton);
 
 updateTranslateButton();
 
-/* valueの小数点第base位以下を切り捨てする関数 */
-
+/**
+ * Rounds down a number to a specified number of decimal places.
+ * @param {number} value - The number to be rounded down.
+ * @param {number} base - The number of decimal places to round down to.
+ * @returns {number} The rounded-down number.
+ * @example
+ * // Returns 3.14
+ * orgFloor(3.14159, 2);
+ * @example
+ * // Returns 123.4
+ * orgFloor(123.456, 1);
+ */
 function orgFloor(value, base) {
     return Math.floor(value * Math.pow(10, base)) / Math.pow(10, base);
 }
 
-function numToMonth(number = 1) {
+/**
+ * Converts a given number to its corresponding month name.
+ * @param {number} number - The number representing the month (1 to 12).
+ * @returns {string} The name of the month corresponding to the given number.
+ * @example
+ * // Returns "January"
+ * numToMonth(1);
+ * @example
+ * // Returns "December"
+ * numToMonth(12);
+ */
+function numToMonth(number) {
     // 配列内のインデックスは0から始まるため、1を引く
     number = number - 1;
 

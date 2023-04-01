@@ -1,3 +1,8 @@
+/**
+ * Returns the current time as a formatted string.
+ *
+ * @returns {string} A string representing the current time in the format "HH:MM:SS".
+ */
 function getCurrentTime() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, "0");
@@ -6,7 +11,15 @@ function getCurrentTime() {
     return `${hours}:${minutes}:${seconds}`;
 }
 
-// 通知を生成する関数
+/**
+ * Creates a notification with the given type, message, duration, and closeButton options.
+ *
+ * @param {string} [type='default'] - The type of the notification ('success', 'warning', 'error', or 'default').
+ * @param {string} [message='Notification content'] - The content of the notification.
+ * @param {number} [duration=5000] - The duration of the notification in milliseconds.
+ * @param {boolean} [closeButton=false] - Whether the notification should have a close button.
+ * @returns {void}
+ */
 function createNotification(
     type = "default",
     message = "Notification content",
@@ -94,6 +107,11 @@ function createNotification(
     }, duration);
 }
 
+/**
+ * Shows a random notification with a random type, a random duration, and a random close button option. The function schedules the next notification to appear after a random interval of time.
+ *
+ * @returns {void}
+ */
 // ランダムな通知を表示する関数（デモ用）
 function showRandomNotification() {
     // 通知の種類

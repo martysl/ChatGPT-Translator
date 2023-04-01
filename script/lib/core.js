@@ -1,11 +1,29 @@
+/**
+ * ChatCompletion class for interacting with the OpenAI API.
+ */
 class ChatCompletion {
+    /**
+     * Create a ChatCompletion instance.
+     * @param {string} model - The name of the model to use for generating responses.
+     * @param {string} apiKey - The API key for authenticating with the OpenAI API.
+     */
     constructor(model, apiKey) {
         this.model = model;
         this.apiKey = apiKey;
         this.url = "https://api.openai.com/v1/chat/completions";
     }
 
-    // create({sysPrompt: "You are a great personal assistant.", prompt: "Tell me about OpenAI's mission.", temperature: 1.0});
+    /**
+     * Create a chat completion.
+     * @async
+     * @param {Object} options - The options for the chat completion.
+     * @param {string} [options.sysPrompt=""] - The system prompt to set the behavior of the AI.
+     * @param {string} options.prompt - The user input prompt for the AI to respond to.
+     * @param {number} [options.temperature=1] - Controls the randomness of the AI's response (0 to 1).
+     * @param {string} [options.stop=""] - The stopping sequence for the AI's response.
+     * @returns {Promise<Object>} An object containing the generated text, total tokens, and processing time.
+     * @throws {Error} If any of the arguments are invalid or if there is an error in communication with the API.
+     */
     async create({ sysPrompt = "", prompt, temperature = 1, stop = "" }) {
         if (
             typeof sysPrompt !== "string" ||
@@ -77,9 +95,30 @@ class ChatCompletion {
     }
 }
 
+/**
+ * Translator class for translating text using the ChatCompletion class with the OpenAI API.
+ * @extends ChatCompletion
+ */
 class Translator extends ChatCompletion {
-    // example: translate({text: "Je voudrais une baguette, s'il vous plaît.", targetLang: "Japanese", temperature: "1.0", style: "novel"})
-    async translate({ text, targetLang, temperature = 1, style = "" }) {
+    /**
+     * Translate a given text to the target language using the OpenAI API.
+     * @async
+     * @param {Object} options - The options for the translation.
+     * @param {string} options.text - The text to be translated.
+     * @param {string} options.targetLang - The target language for the translation.
+     * @param {number} [options.temperature=1] - Controls the randomness of the AI's response (0 to 1).
+     * @param {string} [options.style=""] - The style of the text to be translated.
+     * @param {string} [options.overridePrompt] - Optional custom prompt for the AI.
+     * @returns {Promise<Object>} An object containing the translated text, total tokens, and processing time.
+     * @throws {Error} If any of the arguments are invalid or if there is an error in communication with the API.
+     */
+    async translate({
+        text,
+        targetLang,
+        temperature = 1,
+        style = "",
+        overridePrompt,
+    }) {
         if (
             !text ||
             typeof text !== "string" ||
@@ -94,7 +133,9 @@ class Translator extends ChatCompletion {
 
         console.log(`Target langage: ${targetLang}\nStyle: ${style}`);
         // const prompt = `You are a great translator and a native ${targetLang} speaker.\nThe following is a part of the ${style} text. Please translate the following text to ${targetLang} for the ${style} text. If the Text and target language are the same, please inform the user succinctly that there is no need to translate.\n\nText\n----------\n${text}\n---------\n\nTranslated text\n---------`;
-        const prompt = `You are a great translator and a native ${targetLang} speaker.\nThe following is a part of the ${style} text. Please translate the following text to ${targetLang} for the ${style} text. Insert [TRANSLATE.DONE] at the end\n\nText\n----------\n${text}\n---------\n\nTranslated text\n---------`;
+        const prompt = overridePrompt
+            ? overridePrompt
+            : `You are a great translator and a native ${targetLang} speaker.\nThe following is a part of the ${style} text. Please translate the following text to ${targetLang} for the ${style} text. Insert [TRANSLATE.DONE] at the end\n\nText\n----------\n${text}\n---------\n\nTranslated text\n---------`;
 
         const response = await this.create({
             prompt: prompt,
