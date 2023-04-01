@@ -52,7 +52,7 @@ function createNotification(
         : "";
 
     // 通知の内容を設定
-    notification.innerHTML = `<span class="notification-icon">${icon}</span> <p>${message}</p><time class="notification-time" datetime="${getCurrentTime()}">${getCurrentTime()}</time> ${closeButtonHtml}`;
+    notification.innerHTML = `<span class="notification-icon">${icon}</span><p>${message}</br><span class="notification-time"><time class="notification-time" datetime="${getCurrentTime()}">${getCurrentTime()}</time></span></p>${closeButtonHtml}`;
 
     // 通知コンテナに追加
     const container = document.getElementById("notification-container");
@@ -94,14 +94,14 @@ function createNotification(
     }, duration);
 }
 
-// 通知の種類
-const notificationTypes = ["default", "success", "warning", "error"];
-
-// ×ボタンの有無
-const closeButtonOptions = [true, false];
-
 // ランダムな通知を表示する関数（デモ用）
 function showRandomNotification() {
+    // 通知の種類
+    const notificationTypes = ["default", "success", "warning", "error"];
+
+    // ×ボタンの有無
+    const closeButtonOptions = [true, false];
+
     // 同時に表示する通知の数をランダムに選択（1～2）
     const randomNotificationCount = 1 + Math.floor(Math.random() * 2);
 

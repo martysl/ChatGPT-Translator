@@ -30,10 +30,17 @@ html {
 body {
     height: 100%;
     margin: 0;
-    display: flex;
+    //display: flex;
     flex-direction: column;
     background-color: #f9f9f9;
-    padding-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
+    margin-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 100%;
+    min-height: 100dvh;
 }
 
 header {
@@ -41,8 +48,8 @@ header {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    margin-block-start: 16px;
-    margin-block-end: 0;
+    padding-block-start: 16px;
+    //margin-block-end: 0;
     color: #000;
 }
 
@@ -51,6 +58,10 @@ main {
     margin-block: 16px;
     display: flex;
     flex-direction: column;
+}
+
+footer {
+    padding-block-end: 16px;
 }
 
 textarea {
@@ -76,18 +87,19 @@ textarea {
     }
 }
 
-#completion-info {
-    font-size: 12px;
-    color: #7c7c7c;
-    margin: 0;
-    margin-block-start: 16px;
-}
-
+#completion-info,
 #usage-info {
     font-size: 12px;
     color: #7c7c7c;
-    margin: 0;
-    margin-block-start: 4px;
+    // margin: 0;
+    // margin-block-start: 16px;
+}
+
+.btn-container {
+    margin-block: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 button {
@@ -109,68 +121,6 @@ button {
         background-color: #4c5f6b;
         border: 1px solid #4c5f6b;
         border-block-end: 1px solid #323e46;
-    }
-}
-
-.btn-container {
-    margin-block: 8px;
-    form {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-}
-
-select {
-    height: 34px;
-    padding-inline: 6px;
-    color: #000;
-    background-color: #fdfdfd;
-    border: 1px solid #eaeaea;
-    border-block-end: 1px solid #d8d8d8;
-    border-radius: 6px;
-}
-
-footer {
-    margin-block-start: 0;
-    margin-block-end: 16px;
-    color: #000;
-}
-
-/* モーダルウィンドウのスタイル */
-.modal {
-    display: none; /* 初期状態では非表示にする */
-    position: fixed; /* 画面に固定する */
-    z-index: 1; /* 他の要素よりも前面に表示する */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* コンテンツが画面に収まらない場合にスクロールバーを表示する */
-    background-color: rgba(
-        0,
-        0,
-        0,
-        0.25
-    ); /* 背景を半透明にする。オパシティの数値を変更 */
-}
-
-// モーダルコンテンツのスタイル
-.modal-content {
-    min-width: 320px;
-    max-width: 800px;
-    background-color: #f9f9f9;
-    color: #000;
-    box-shadow: 0px 32px 32px -16px rgba(0, 0, 0, 0.25);
-    margin: 32px auto; /* 画面中央に配置する */
-    padding-block: 20px;
-    padding-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
-    border: 1px solid #e5e5e5;
-    border-radius: 6px;
-    transition: border-radius 0.1s ease-out;
-    @media screen and (max-width: 800px) {
-        border-inline: none;
-        border-radius: 0px;
     }
 }
 
@@ -197,15 +147,71 @@ input {
     }
 }
 
+select {
+    height: 34px;
+    padding-inline: 6px;
+    color: #000;
+    background-color: #fdfdfd;
+    border: 1px solid #eaeaea;
+    border-block-end: 1px solid #d8d8d8;
+    border-radius: 6px;
+}
+
+/* モーダルウィンドウのスタイル */
+.modal {
+    display: none; /* 初期状態では非表示にする */
+    position: fixed; /* 画面に固定する */
+    z-index: 1; /* 他の要素よりも前面に表示する */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* コンテンツが画面に収まらない場合にスクロールバーを表示する */
+    background-color: rgba(
+        0,
+        0,
+        0,
+        0.25
+    ); /* 背景を半透明にする。オパシティの数値を変更 */
+    @media screen and (max-width: 800px) {
+        background-color: hsla(0, 0%, 98%, 0.8);
+        backdrop-filter: blur(8px);
+    }
+}
+
+// モーダルコンテンツのスタイル
+.modal-content {
+    min-width: 320px;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    color: #000;
+    box-shadow: 0px 32px 32px -16px rgba(0, 0, 0, 0.25);
+    margin: 32px auto; /* 画面中央に配置する */
+    padding-block: 20px;
+    padding-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    transition: border-radius 0.1s ease-out;
+    @media screen and (max-width: 800px) {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        grid-template-columns: 100%;
+        min-height: 100dvh;
+        background-color: transparent;
+        margin: 0;
+        border: none;
+        border-radius: 0px;
+    }
+}
+
 // モーダルヘッダーフッター
 .modal-content .modal-header,
 .modal-content .modal-footer {
-    margin-block: 8px; /* margin-block -> margin-bottom */
-    flex-direction: column;
+    margin-block: 8px;
 
     /* モーダルタイトルバーのスタイル */
     .modal-titlebar {
-        margin-block: 4px;
+        align-items: center;
         display: flex;
         justify-content: space-between;
     }
@@ -289,19 +295,20 @@ input {
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #000;
     min-height: 32px;
+    // max-width: 600px;
     padding: 12px;
     padding-inline-end: 16px;
     padding-block: 10px;
-    padding-block-end: 24px; /* for time */
-    border-radius: 6px;
+    // padding-block-end: 24px; /* for time */
     margin-block-end: 0.5rem;
     font-size: 1rem;
-    // max-width: 600px;
     word-wrap: break-word;
+    color: #000;
+    background-color: #f3f3f3;
+    border-radius: 6px;
     border: 1px solid;
+    border-color: #8a8a8a;
     box-shadow: 0px 16px 32px -16px rgba(0, 0, 0, 0.5);
     p {
         line-height: 1.5rem;
@@ -323,12 +330,12 @@ input {
     }
     &.notification-default {
         border-color: #8a8a8a;
-        background-color: #f3f3f3;
+        background-color: #f2f2f2;
     }
 }
 
 .notification-icon {
-    // margin-inline-end: 0.5rem;
+    margin-inline-end: 2px;
     font-size: 1.25rem;
     display: flex;
     img.emoji {
@@ -339,12 +346,8 @@ input {
 }
 
 .notification-time {
-    position: absolute;
-    left: 34px;
-    bottom: 0;
-    margin: 6px;
-    margin-inline-end: 8px;
-    font-size: 8px;
+    line-height: 12px;
+    font-size: 12px;
     color: rgba(0, 0, 0, 0.5);
 }
 
@@ -354,19 +357,16 @@ input {
     height: auto;
     font-size: 1.25rem;
     color: #000;
+    margin-inline-start: 2px;
     // margin-left: 0.5rem;
     padding: 0;
     cursor: pointer;
 }
 
-.close-button:focus {
-    outline: none;
-}
-
 @keyframes fadeIn {
     from {
         transform: translateX(-100%);
-        opacity: 0;
+        opacity: 1;
     }
     to {
         transform: translateX(0);

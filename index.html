@@ -27,18 +27,18 @@
         <title>ChatGPTranslate</title>
     </head>
     <body>
-        <header>
-            <h1>ChatGPTranslate</h1>
-            <button id="modal-btn">⚙️</button>
-        </header>
-        <main>
-            <textarea
-                id="source-text"
-                autocomplete="off"
-                spellcheck="false"
-            ></textarea>
-            <div class="btn-container">
-                <form>
+        <div class="grid-container">
+            <header>
+                <h1>ChatGPTranslate</h1>
+                <button id="modal-btn">⚙️</button>
+            </header>
+            <main>
+                <textarea
+                    id="source-text"
+                    autocomplete="off"
+                    spellcheck="false"
+                ></textarea>
+                <div class="btn-container">
                     <button type="button" id="translate-btn" class="" disabled>
                         Translate
                     </button>
@@ -46,87 +46,98 @@
                         <option value="" selected>Select a language</option>
                     </select>
                     <select id="style-select"></select>
-                </form>
-            </div>
-            <textarea
-                id="target-text"
-                placeholder="Translation"
-                autocomplete="off"
-                spellcheck="false"
-                readonly
-            ></textarea>
-            <p id="completion-info">
-                The number of tokens used and the fee are displayed here.
-            </p>
-            <p id="usage-info">
-                This month's usage fee will be displayed here.
-            </p>
-        </main>
+                </div>
+                <textarea
+                    id="target-text"
+                    placeholder="Translation"
+                    autocomplete="off"
+                    spellcheck="false"
+                    readonly
+                ></textarea>
+            </main>
+            <footer>
+                <div class="translateinfo-container">
+                    <p id="completion-info">
+                        The number of tokens used and the fee are displayed
+                        here.
+                    </p>
+                    <p id="usage-info">
+                        This month's usage fee will be displayed here.
+                    </p>
+                </div>
+            </footer>
+        </div>
+
         <div id="modal" class="modal">
             <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-titlebar">
-                        <h1>Setting</h1>
-                        <button type="button" class="" id="modal-close">
-                            &times;
-                        </button>
+                <div class="modal-header-container">
+                    <div class="modal-header">
+                        <div class="modal-titlebar">
+                            <h1>Setting</h1>
+                            <button type="button" class="" id="modal-close">
+                                &times;
+                            </button>
+                        </div>
+                        <p>
+                            All settings are saved locally using Local Storage.
+                        </p>
                     </div>
-                    <p>All settings are saved locally using Local Storage.</p>
-                </div>
-                <div class="btn-container">
-                    <form action="">
+                    <div class="btn-container">
                         <button type="button" id="setting-save">Save</button>
                         <button type="button" id="setting-reset">Reset</button>
-                    </form>
-                </div>
-                <!-- Setting list -->
-                <div
-                    class="setting-container"
-                    data-icon="🔑"
-                    data-title="OpenAI API Key"
-                    data-desc="Enter the API key obtained from OpenAI."
-                >
-                    <input
-                        placeholder=""
-                        type="password"
-                        id="api-key"
-                        class="wide"
-                    />
-                </div>
-                <p>Debug</p>
-                <div
-                    class="setting-container"
-                    data-icon="🔔"
-                    data-title="Notification test"
-                    data-desc="Testing notification function."
-                >
-                    <input
-                        placeholder="Notification content"
-                        type="text"
-                        value="Notification content"
-                        id="notification-test-content"
-                        class="wide"
-                    />
-                    <div class="btn-container">
-                        <input
-                            placeholder="Duration"
-                            type="number"
-                            min="0"
-                            value="5000"
-                            id="notification-test-duration"
-                        />
-                        <!-- <p>ms</p> -->
-                        <select id="notification-test-list">
-                            <option value="default">Default</option>
-                            <option value="success">Success</option>
-                            <option value="warning">Warning</option>
-                            <option value="error">Error</option>
-                        </select>
-                        <button type="button" id="notification-test-button">
-                            Test
-                        </button>
                     </div>
                 </div>
+                <!-- Setting list -->
+                <div class="setting-list-container">
+                    <div
+                        class="setting-container"
+                        data-icon="🔑"
+                        data-title="OpenAI API Key"
+                        data-desc="Enter the API key obtained from OpenAI."
+                    >
+                        <input
+                            placeholder=""
+                            type="password"
+                            id="api-key"
+                            class="wide"
+                        />
+                    </div>
+                    <p>Debug</p>
+                    <div
+                        class="setting-container"
+                        data-icon="🔔"
+                        data-title="Notification test"
+                        data-desc="Testing notification function."
+                    >
+                        <input
+                            placeholder="Notification content"
+                            type="text"
+                            value="Notification content"
+                            id="notification-test-content"
+                            class="wide"
+                        />
+                        <div class="btn-container">
+                            <input
+                                placeholder="Duration"
+                                type="number"
+                                min="0"
+                                value="5000"
+                                id="notification-test-duration"
+                            />
+                            <!-- <p>ms</p> -->
+                            <select id="notification-test-list">
+                                <option value="default">Default</option>
+                                <option value="success">Success</option>
+                                <option value="warning">Warning</option>
+                                <option value="error">Error</option>
+                            </select>
+                            <button type="button" id="notification-test-button">
+                                Test
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Setting list end -->
                 <div class="modal-footer">
                     <p>
