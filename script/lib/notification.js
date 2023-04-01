@@ -36,24 +36,32 @@ function createNotification(
     let notificationClass;
     switch (type) {
         case "success":
-            icon = "✅";
+            icon = `<svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"></path>
+          </svg>`;
             color = "green";
-            notificationClass = "notification-success";
+            notificationClass = "success";
             break;
         case "warning":
-            icon = "⚠️";
+            icon = `<svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"></path>
+          </svg>`;
             color = "yellow";
-            notificationClass = "notification-warning";
+            notificationClass = "warning";
             break;
         case "error":
-            icon = "❌";
+            icon = `<svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"></path>
+          </svg>`;
             color = "red";
-            notificationClass = "notification-error";
+            notificationClass = "error";
             break;
         default:
-            icon = "🔔";
+            icon = `<svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M10 2a6 6 0 00-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 00.515 1.076 32.91 32.91 0 003.256.508 3.5 3.5 0 006.972 0 32.903 32.903 0 003.256-.508.75.75 0 00.515-1.076A11.448 11.448 0 0116 8a6 6 0 00-6-6zM8.05 14.943a33.54 33.54 0 003.9 0 2 2 0 01-3.9 0z"></path>
+          </svg>`;
             color = "white";
-            notificationClass = "notification-default";
+            notificationClass = "default";
     }
 
     // 通知に適切なクラスを追加
@@ -65,7 +73,7 @@ function createNotification(
         : "";
 
     // 通知の内容を設定
-    notification.innerHTML = `<span class="notification-icon">${icon}</span><p>${message}</br><span class="notification-time"><time class="notification-time" datetime="${getCurrentTime()}">${getCurrentTime()}</time></span></p>${closeButtonHtml}`;
+    notification.innerHTML = `<span class="notification-icon ${type}">${icon}</span><p>${message}</br><span class="notification-time"><time class="notification-time" datetime="${getCurrentTime()}">${getCurrentTime()}</time></span></p>${closeButtonHtml}`;
 
     // 通知コンテナに追加
     const container = document.getElementById("notification-container");

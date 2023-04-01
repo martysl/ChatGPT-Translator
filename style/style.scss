@@ -1,8 +1,11 @@
 html {
-    height: 100%;
-    margin: auto;
+    //height: 100%;
+    //margin: auto;
     min-width: 320px;
     max-width: 1200px;
+}
+
+body {
 }
 
 * {
@@ -34,6 +37,10 @@ body {
     flex-direction: column;
     background-color: #f9f9f9;
     margin-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
+    font-family: "Yu Gothic UI", "SF Pro JP", "SF Pro Display", "SF Pro Icons",
+        "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "Meiryo UI",
+        "Yu Gothic", "YuGothic", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック",
+        "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 .grid-container {
@@ -116,6 +123,11 @@ button {
         color: #9d9d9d;
         border: 1px solid #e5e5e5;
     }
+    &.transparent {
+        padding: 4px;
+        background-color: transparent;
+        border: none;
+    }
     &.painted {
         color: #fff;
         background-color: #4c5f6b;
@@ -158,6 +170,9 @@ select {
 }
 
 /* モーダルウィンドウのスタイル */
+
+$modal-small-width: 800px;
+
 .modal {
     display: none; /* 初期状態では非表示にする */
     position: fixed; /* 画面に固定する */
@@ -168,16 +183,17 @@ select {
     height: 100%;
     overflow: auto; /* コンテンツが画面に収まらない場合にスクロールバーを表示する */
     background-color: rgba(0, 0, 0, 0.25);
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: $modal-small-width) {
         background-color: hsla(0, 0%, 98%, 0.7);
         backdrop-filter: blur(16px);
     }
 }
 
 // モーダルコンテンツのスタイル
+
 .modal-content {
     min-width: 320px;
-    max-width: 800px;
+    max-width: 780px;
     background-color: #f9f9f9;
     color: #000;
     box-shadow: 0px 32px 32px -16px rgba(0, 0, 0, 0.25);
@@ -187,7 +203,8 @@ select {
     border: 1px solid #e5e5e5;
     border-radius: 6px;
     transition: border-radius 0.1s ease-out;
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: $modal-small-width) {
+        max-width: $modal-small-width;
         display: grid;
         grid-template-rows: auto 1fr auto;
         grid-template-columns: 100%;
@@ -206,9 +223,15 @@ select {
 
     /* モーダルタイトルバーのスタイル */
     .modal-titlebar {
+        margin-block: 8px;
         align-items: center;
         display: flex;
-        justify-content: space-between;
+        gap: 8px;
+        // justify-content: space-between;
+        svg {
+            height: 20px;
+            width: 20px;
+        }
     }
 
     /* モーダルヘッダー内のテキストのスタイル */
@@ -219,11 +242,12 @@ select {
 }
 
 .modal-content .modal-footer {
+    display: none;
     p {
         font-size: 12px;
         color: #5f5f5f;
     }
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: $modal-small-width) {
         display: none;
     }
 }
@@ -237,7 +261,7 @@ select {
     padding: 16px;
     border: 1px solid #eaeaea;
     border-radius: 6px;
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: $modal-small-width) {
         flex-direction: column;
         .setting-title {
             margin-block-end: 8px;
@@ -263,7 +287,7 @@ select {
     margin-inline-start: 8px;
     margin-block: auto;
     min-width: 50%;
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: $modal-small-width) {
         margin-inline-start: 0px;
         width: 100%;
     }
@@ -284,14 +308,12 @@ select {
 #notification-container {
     position: fixed;
     bottom: 0;
-    // right: 0;
     left: 0;
     display: flex;
     flex-direction: column-reverse;
-    // align-items: flex-end;
     align-items: flex-start;
     padding-inline: 1rem;
-    padding-block-end: 0.5em;
+    padding-block-end: 0.5rem;
     z-index: 1000;
     overflow-y: auto;
 }
@@ -300,53 +322,52 @@ select {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-height: 32px;
-    // max-width: 600px;
-    padding: 12px;
+    padding: 16px;
     padding-inline-end: 16px;
-    padding-block: 10px;
-    // padding-block-end: 24px; /* for time */
+    padding-block: 12px;
     margin-block-end: 0.5rem;
     font-size: 1rem;
     word-wrap: break-word;
     color: #000;
-    background-color: #f3f3f3;
+    background-color: #f2f2f2;
     border-radius: 6px;
-    border: 1px solid;
-    border-color: #8a8a8a;
-    box-shadow: 0px 16px 32px -16px rgba(0, 0, 0, 0.5);
+    //border: 1px solid;
+    //border-color: #8a8a8a;
+    box-shadow: 0px 8px 16px -8px rgba(0, 0, 0, 0.2);
     p {
         line-height: 1.5rem;
         margin: 0;
-        // margin-inline-end: 8px;
     }
-    //通知のスタイル
-    &.notification-success {
-        border-color: #0f7b0f;
+    &.success {
         background-color: #dff6dd;
     }
-    &.notification-warning {
-        border-color: #9d5d00;
+    &.warning {
         background-color: #fff4ce;
     }
-    &.notification-error {
-        border-color: #c42b1c;
+    &.error {
         background-color: #fde7e9;
     }
-    &.notification-default {
-        border-color: #8a8a8a;
+    &.default {
         background-color: #f2f2f2;
     }
 }
 
 .notification-icon {
-    margin-inline-end: 2px;
+    height: 20px;
+    width: 22px;
     font-size: 1.25rem;
     display: flex;
-    img.emoji {
-        height: 16px;
-        min-width: 16px;
-        width: 16px;
+    &.success {
+        color: #0f7b0f;
+    }
+    &.warning {
+        color: #9d5d00;
+    }
+    &.error {
+        color: #c42b1c;
+    }
+    &.default {
+        color: #8a8a8a;
     }
 }
 

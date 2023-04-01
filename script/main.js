@@ -425,12 +425,15 @@ closeBtn.addEventListener("click", () => {
     }, modalOutDuration);
 });
 
-// モーダルの外側をクリックしたときにも非表示にする
-// window.addEventListener("click", ({ target }) => {
-//     if (target === modal) {
-//         modal.style.display = "none";
-//     }
-// });
+//モーダルの外側をクリックしたときにも非表示にする;
+window.addEventListener("click", ({ target }) => {
+    if (target === modal) {
+        modal.style.animation = `${modalOutAnimation}`;
+        setTimeout(() => {
+            modal.style.display = "none";
+        }, modalOutDuration);
+    }
+});
 
 const defaultSettingsData = {
     storage_isFirstVisit: true,
