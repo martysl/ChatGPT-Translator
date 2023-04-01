@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
+        <script>
+            var userAgentIE = window.navigator.userAgent.toLowerCase();
+            if (
+                userAgentIE.indexOf("msie") != -1 ||
+                userAgentIE.indexOf("trident") != -1
+            ) {
+                window.location.replace("./ie/index.html");
+            }
+        </script>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -89,6 +98,7 @@
                 </div>
                 <!-- Setting list -->
                 <div class="setting-list-container">
+                    <!-- OpenAI API Key -->
                     <div
                         class="setting-container"
                         data-icon="🔑"
@@ -103,6 +113,7 @@
                         />
                     </div>
                     <p>Debug</p>
+                    <!-- Notification test -->
                     <div
                         class="setting-container"
                         data-icon="🔔"
@@ -137,7 +148,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Setting list end -->
                 <div class="modal-footer">
                     <p>
