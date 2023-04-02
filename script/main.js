@@ -260,6 +260,13 @@ const languageData = [
     },
 ];
 
+generateSelectElement({
+    selectElement: languageSelect,
+    data: languageData,
+    dataValueName: "language",
+    dataTextName: "name",
+});
+
 const styleData = [
     { style: "", prompt: "", name: "Default" },
     { style: "novel", prompt: " for the novel", name: "Novel" },
@@ -268,18 +275,19 @@ const styleData = [
 ];
 
 generateSelectElement({
-    selectElement: languageSelect,
-    data: languageData,
-    dataValueName: "language",
-    dataTextName: "name",
-});
-
-generateSelectElement({
     selectElement: styleSelect,
     data: styleData,
     dataValueName: "style",
     dataTextName: "name",
 });
+
+const promptData = [
+    {
+        name: "Default",
+        value: "default",
+        prompt: `Please translate the following text to \${selectedLanguage}.\n----------\n\${sourceText}\n----------\nAnswer:`,
+    },
+];
 
 // TODO:たぶんもうgetStylePromptは使わない
 /**

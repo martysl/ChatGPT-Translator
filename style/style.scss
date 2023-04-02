@@ -302,11 +302,13 @@ $modal-small-width: 800px;
 .setting-key {
     display: flex;
     flex-wrap: wrap;
+    justify-content: end;
     gap: 8px;
     margin-inline-start: 8px;
     margin-block: auto;
     width: 50%;
     .btn-container {
+        justify-content: end;
         margin: 0;
     }
     @media screen and (max-width: $modal-small-width) {
@@ -444,10 +446,10 @@ $modal-small-width: 800px;
 
 @keyframes scaleBeat {
     0% {
-        transform: scale(100%) rotateZ(0deg);
+        transform: scale(100%);
     }
     100% {
-        transform: scale(150%) rotateZ(360deg);
+        transform: scale(150%);
     }
 }
 

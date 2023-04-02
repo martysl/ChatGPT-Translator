@@ -300,6 +300,7 @@ select {
 .setting-key {
   display: flex;
   flex-wrap: wrap;
+  justify-content: end;
   gap: 8px;
   -webkit-margin-start: 8px;
           margin-inline-start: 8px;
@@ -307,6 +308,7 @@ select {
   width: 50%;
 }
 .setting-key .btn-container {
+  justify-content: end;
   margin: 0;
 }
 @media screen and (max-width: 800px) {
@@ -487,22 +489,22 @@ select {
 }
 @-webkit-keyframes scaleBeat {
   0% {
-    -webkit-transform: scale(100%) rotateZ(0deg);
-            transform: scale(100%) rotateZ(0deg);
+    -webkit-transform: scale(100%);
+            transform: scale(100%);
   }
   100% {
-    -webkit-transform: scale(150%) rotateZ(360deg);
-            transform: scale(150%) rotateZ(360deg);
+    -webkit-transform: scale(150%);
+            transform: scale(150%);
   }
 }
 @keyframes scaleBeat {
   0% {
-    -webkit-transform: scale(100%) rotateZ(0deg);
-            transform: scale(100%) rotateZ(0deg);
+    -webkit-transform: scale(100%);
+            transform: scale(100%);
   }
   100% {
-    -webkit-transform: scale(150%) rotateZ(360deg);
-            transform: scale(150%) rotateZ(360deg);
+    -webkit-transform: scale(150%);
+            transform: scale(150%);
   }
 }
 @-webkit-keyframes modalFadeOut {
