@@ -2,7 +2,7 @@
 
 html {
     //height: 100%;
-    //margin: auto;
+    margin: auto;
     min-width: 320px;
     max-width: 1200px;
 }
@@ -32,7 +32,6 @@ html {
 body {
     color: #000;
     height: 100%;
-    margin: 0;
     //display: flex;
     flex-direction: column;
     background-color: #f9f9f9;
@@ -63,7 +62,7 @@ header {
 
 main {
     flex-grow: 1;
-    margin-block: 16px;
+    margin-block: 8px;
     display: flex;
     flex-direction: column;
 }
@@ -236,7 +235,7 @@ $modal-small-width: 800px;
 .modal-content .modal-header {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
     /* モーダルタイトルバーのスタイル */
     .modal-titlebar {
         display: flex;
@@ -439,6 +438,15 @@ $modal-small-width: 800px;
     }
     to {
         opacity: 1;
+    }
+}
+
+@keyframes scaleBeat {
+    0% {
+        transform: scale(100%) rotateZ(0deg);
+    }
+    100% {
+        transform: scale(150%) rotateZ(360deg);
     }
 }
 

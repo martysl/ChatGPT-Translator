@@ -503,7 +503,7 @@ function checkFirstVisit() {
 
     if (typeof isFirstVisit !== "boolean" || isFirstVisit) {
         initializeSettings();
-        modal.style.display = "block";
+        // modal.style.display = "block";
     } else {
         apikeyInput.value = `${
             lsHandler.get(["storage_apikey"]).storage_apikey
@@ -512,6 +512,7 @@ function checkFirstVisit() {
         return;
     }
 
+    modalBtn.style.animation = `scaleBeat 1000ms cubic-bezier(.25,.50,0,1) alternate infinite`;
     lsHandler.set({ storage_isFirstVisit: false });
     createNotification(
         "default",
@@ -519,6 +520,9 @@ function checkFirstVisit() {
         10000,
         true
     );
+    setTimeout(() => {
+        modalBtn.style.animation = "none";
+    }, 2000 * 7);
 }
 
 checkFirstVisit();
