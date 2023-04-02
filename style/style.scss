@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap");
+
 html {
     //height: 100%;
     //margin: auto;
@@ -35,10 +37,11 @@ body {
     flex-direction: column;
     background-color: #f9f9f9;
     margin-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
-    font-family: "Yu Gothic UI", "SF Pro JP", "SF Pro Display", "SF Pro Icons",
-        "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "Meiryo UI",
-        "Yu Gothic", "YuGothic", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック",
-        "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-family: "Noto Sans JP", sans-serif;
+    // font-family: "Yu Gothic UI", "SF Pro JP", "SF Pro Display", "SF Pro Icons",
+    //     "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "Meiryo UI",
+    //     "Yu Gothic", "YuGothic", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック",
+    //     "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 .grid-container {
@@ -115,6 +118,9 @@ button {
     border: 1px solid #eaeaea;
     border-block-end: 1px solid #919493;
     border-radius: 6px;
+    svg {
+        height: 100%;
+    }
     // transition: all 0.1s ease-out;
     &[disabled] {
         background-color: #f5f5f5;
@@ -135,7 +141,7 @@ button {
 }
 
 input {
-    //max-width: 30em;
+    // max-width: 30em;
     height: 34px;
     box-sizing: border-box;
     padding-inline: 6px;
@@ -145,6 +151,9 @@ input {
     border-block-end: 1px solid #919493;
     border-radius: 6px;
     transition: border-block-end 0.1s ease-out;
+    &.small {
+        width: 25%;
+    }
     &.wide {
         width: 100%;
     }
@@ -182,8 +191,8 @@ $modal-small-width: 800px;
     overflow: auto; /* コンテンツが画面に収まらない場合にスクロールバーを表示する */
     background-color: rgba(0, 0, 0, 0.25);
     @media screen and (max-width: $modal-small-width) {
-        background-color: hsla(0, 0%, 98%, 0.7);
-        backdrop-filter: blur(16px);
+        background-color: hsla(0, 0%, 98%);
+        // backdrop-filter: blur(16px);
     }
 }
 
@@ -200,7 +209,6 @@ $modal-small-width: 800px;
     padding-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
     border: 1px solid #e5e5e5;
     border-radius: 6px;
-    transition: border-radius 0.1s ease-out;
     @media screen and (max-width: $modal-small-width) {
         max-width: $modal-small-width;
         display: grid;
@@ -216,13 +224,23 @@ $modal-small-width: 800px;
 
 // モーダルヘッダーフッター
 
+.modal-header-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .btn-container {
+        margin: 0;
+    }
+}
+
 .modal-content .modal-header {
-    margin-block: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     /* モーダルタイトルバーのスタイル */
     .modal-titlebar {
-        margin-block: 8px;
-        align-items: center;
         display: flex;
+        align-items: center;
         gap: 8px;
         // justify-content: space-between;
         svg {
@@ -253,6 +271,7 @@ $modal-small-width: 800px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 8px;
     background-color: #fdfdfd;
     margin-block: 8px;
     padding: 16px;
@@ -260,18 +279,18 @@ $modal-small-width: 800px;
     border-radius: 6px;
     @media screen and (max-width: $modal-small-width) {
         flex-direction: column;
-        .setting-title {
-            margin-block-end: 8px;
-        }
     }
     .setting-left {
         display: flex;
-        align-items: start;
-        img.emoji {
-            height: 24px;
-            width: 24px;
-            margin: 9px;
-            margin-inline-end: 16px;
+        .setting-emoji {
+            display: flex;
+            align-items: center;
+            height: 42px;
+            margin-inline-end: 12px;
+            img.emoji {
+                height: 24px;
+                width: 24px;
+            }
         }
     }
     p.setting-desc {
@@ -281,9 +300,15 @@ $modal-small-width: 800px;
 }
 
 .setting-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-inline-start: 8px;
     margin-block: auto;
-    min-width: 50%;
+    width: 50%;
+    .btn-container {
+        margin: 0;
+    }
     @media screen and (max-width: $modal-small-width) {
         margin-inline-start: 0px;
         width: 100%;

@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap");
 html {
   min-width: 320px;
   max-width: 1200px;
@@ -32,7 +33,7 @@ body {
   flex-direction: column;
   background-color: #f9f9f9;
   margin-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
-  font-family: "Yu Gothic UI", "SF Pro JP", "SF Pro Display", "SF Pro Icons", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "Meiryo UI", "Yu Gothic", "YuGothic", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 .grid-container {
@@ -114,6 +115,9 @@ button {
           border-block-end: 1px solid #919493;
   border-radius: 6px;
 }
+button svg {
+  height: 100%;
+}
 button[disabled] {
   background-color: #f5f5f5;
   color: #9d9d9d;
@@ -145,6 +149,9 @@ input {
   transition: -webkit-border-after 0.1s ease-out;
   transition: border-block-end 0.1s ease-out;
   transition: border-block-end 0.1s ease-out, -webkit-border-after 0.1s ease-out;
+}
+input.small {
+  width: 25%;
 }
 input.wide {
   width: 100%;
@@ -183,9 +190,7 @@ select {
 }
 @media screen and (max-width: 800px) {
   .modal {
-    background-color: hsla(0, 0%, 98%, 0.7);
-    -webkit-backdrop-filter: blur(16px);
-            backdrop-filter: blur(16px);
+    background-color: hsl(0, 0%, 98%);
   }
 }
 
@@ -200,7 +205,6 @@ select {
   padding-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
   border: 1px solid #e5e5e5;
   border-radius: 6px;
-  transition: border-radius 0.1s ease-out;
 }
 @media screen and (max-width: 800px) {
   .modal-content {
@@ -216,15 +220,25 @@ select {
   }
 }
 
+.modal-header-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.modal-header-container .btn-container {
+  margin: 0;
+}
+
 .modal-content .modal-header {
-  margin-block: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   /* モーダルタイトルバーのスタイル */
   /* モーダルヘッダー内のテキストのスタイル */
 }
 .modal-content .modal-header .modal-titlebar {
-  margin-block: 8px;
-  align-items: center;
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 .modal-content .modal-header .modal-titlebar svg {
@@ -253,6 +267,7 @@ select {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 8px;
   background-color: #fdfdfd;
   margin-block: 8px;
   padding: 16px;
@@ -263,21 +278,20 @@ select {
   .setting-container {
     flex-direction: column;
   }
-  .setting-container .setting-title {
-    -webkit-margin-after: 8px;
-            margin-block-end: 8px;
-  }
 }
 .setting-container .setting-left {
   display: flex;
-  align-items: start;
 }
-.setting-container .setting-left img.emoji {
+.setting-container .setting-left .setting-emoji {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  -webkit-margin-end: 12px;
+          margin-inline-end: 12px;
+}
+.setting-container .setting-left .setting-emoji img.emoji {
   height: 24px;
   width: 24px;
-  margin: 9px;
-  -webkit-margin-end: 16px;
-          margin-inline-end: 16px;
 }
 .setting-container p.setting-desc {
   font-size: 12px;
@@ -285,10 +299,16 @@ select {
 }
 
 .setting-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   -webkit-margin-start: 8px;
           margin-inline-start: 8px;
   margin-block: auto;
-  min-width: 50%;
+  width: 50%;
+}
+.setting-key .btn-container {
+  margin: 0;
 }
 @media screen and (max-width: 800px) {
   .setting-key {

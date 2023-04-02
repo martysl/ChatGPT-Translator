@@ -1,12 +1,19 @@
 import { LocalStorageHandler } from "./lib/setting.js";
 import { createNotification } from "./lib/notification.js";
-import { Translator, openaiUsage } from "./lib/core.js";
+import { Translator, openaiUsage } from "./lib/chatcompletion.js";
 
-const ls = new LocalStorageHandler();
+const lsHandler = new LocalStorageHandler();
 
-// 設定のUI要素変換
+//デバッグモード制御
+const urlParams = new URLSearchParams(window.location.search);
+let debugMode = false;
+if (urlParams.has("debug") && urlParams.get("debug") === "true") {
+    debugMode = true;
+    console.log("Enabled Debug mode.");
+}
+// 初期化#1(UI生成)
 
-function ohSoSarcasticTransformation() {
+function generateSettingUI() {
     const containers = document.querySelectorAll(".setting-container");
 
     containers.forEach((container) => {
@@ -24,13 +31,14 @@ function ohSoSarcasticTransformation() {
     </div>
     <div class="setting-key">${container.innerHTML.trim()}</div>
   `;
+
+        twemoji.parse(container);
     });
 }
 
-ohSoSarcasticTransformation();
+generateSettingUI();
 
 const translateButton = document.getElementById("translate-btn");
-translateButton.addEventListener("click", translateText);
 
 const apikeyInput = document.querySelector("#api-key");
 const targetTextarea = document.querySelector("#target-text");
@@ -49,6 +57,8 @@ const notificationTestButton = document.getElementById(
     "notification-test-button"
 );
 
+// 初期化#2(Select内のOption生成)
+
 /**
  * Creates an HTML option element with the given value and text.
  *
@@ -56,14 +66,41 @@ const notificationTestButton = document.getElementById(
  * @param {string} text - The text to display for the option.
  * @returns {HTMLOptionElement} The HTML option element.
  */
-function generateOptions(value, text) {
+function createOptions(value, text) {
     const option = document.createElement("option");
     option.value = value;
     option.text = text;
     return option;
 }
 
-/* 言語リスト(select)を生成するやつ */
+/**
+ * Generates and appends options to a select element based on provided data.
+ * @param {Object} params - The parameters for the function.
+ * @param {HTMLSelectElement} params.selectElement - The select element to append options to.
+ * @param {Array} params.data - An array of objects containing the data to create the options.
+ * @param {string} params.dataValueName - The property name for the option value in the data objects.
+ * @param {string} params.dataTextName - The property name for the option text in the data objects.
+ */
+function generateSelectElement({
+    selectElement,
+    data,
+    dataValueName,
+    dataTextName,
+}) {
+    console.log({
+        selectElement,
+        data,
+        dataValueName,
+        dataTextName,
+    });
+    for (let i = 0; i < data.length; i++) {
+        const option = createOptions(
+            data[i][dataValueName],
+            data[i][dataTextName]
+        );
+        selectElement.appendChild(option);
+    }
+}
 
 const languageData = [
     {
@@ -223,14 +260,6 @@ const languageData = [
     },
 ];
 
-languageData.forEach((language) => {
-    languageSelect.appendChild(
-        generateOptions(language.language, language.name)
-    );
-});
-
-/* スタイルリスト(select)を生成するやつ */
-
 const styleData = [
     { style: "", prompt: "", name: "Default" },
     { style: "novel", prompt: " for the novel", name: "Novel" },
@@ -238,11 +267,21 @@ const styleData = [
     { style: "wiki", prompt: " for the wiki", name: "Wiki" },
 ];
 
-styleData.forEach((param) => {
-    styleSelect.appendChild(generateOptions(param.style, param.name));
+generateSelectElement({
+    selectElement: languageSelect,
+    data: languageData,
+    dataValueName: "language",
+    dataTextName: "name",
 });
 
-// 指定スタイルのプロンプトをgetする
+generateSelectElement({
+    selectElement: styleSelect,
+    data: styleData,
+    dataValueName: "style",
+    dataTextName: "name",
+});
+
+// TODO:たぶんもうgetStylePromptは使わない
 /**
  * Returns the prompt associated with the given style.
  *
@@ -255,24 +294,21 @@ function getStylePrompt(style, styles) {
     return foundStyle ? foundStyle.prompt : "";
 }
 
-/* translate-btnの制御するやつ */
+// 初期化#3(翻訳実行ボタンの制御)
 
 // sourceTextareが空 or languageSelectがデフォ = disabled
 function updateTranslateButton() {
     translateButton.disabled = !(
         sourceTextarea.value.match(/\S/) && languageSelect.value
     );
-    // if (sourceTextarea.value.trim() === "" || languageSelect.value === "") {
-    //     translateButton.disabled = true;
-    // } else {
-    //     translateButton.disabled = false;
-    // }
 }
 
 sourceTextarea.addEventListener("input", updateTranslateButton);
 languageSelect.addEventListener("change", updateTranslateButton);
 
 updateTranslateButton();
+
+// numberに対して何かをする関数
 
 /**
  * Rounds down a number to a specified number of decimal places.
@@ -326,12 +362,14 @@ function numToMonth(number) {
     return monthName;
 }
 
-async function updateUsage() {
+// usageを更新するための関数
+
+async function updateUsageUI() {
     const placeholder = usageInfoElem.innerHTML;
     usageInfoElem.innerHTML = "...";
 
     const usage = new openaiUsage(
-        `${ls.get([`storage_apikey`]).storage_apikey}`
+        `${lsHandler.get([`storage_apikey`]).storage_apikey}`
     );
 
     try {
@@ -351,17 +389,17 @@ async function updateUsage() {
     }
 }
 
-async function translateText() {
+// 翻訳ボタンを押したらテキストを翻訳する処理
+
+translateButton.addEventListener("click", async () => {
+    //翻訳ボタンの制御
     sourceTextarea.removeEventListener("input", updateTranslateButton);
     languageSelect.removeEventListener("change", updateTranslateButton);
     translateButton.disabled = true;
 
-    // const stylePrompt = getStylePrompt(style, styleData);
-
-    //内容の削除
-    //TODO:インジケーター表示
-    //結果で上書き
-
+    //元のplaceholderとinfoを保存しとく
+    //placeholderとcompletionInfoElem更新
+    //textarea内のテキストを削除
     const placeholder = targetTextarea.placeholder;
     const infoText = completionInfoElem.innerHTML;
     targetTextarea.placeholder = "Translating...";
@@ -370,10 +408,11 @@ async function translateText() {
 
     const translator = new Translator(
         "gpt-3.5-turbo-0301",
-        `${ls.get([`storage_apikey`]).storage_apikey}`
+        `${lsHandler.get([`storage_apikey`]).storage_apikey}`
     );
 
     try {
+        // 結果をtargetTextareaとcompletionInfoElemに入れる
         const result = await translator.translate({
             text: sourceTextarea.value,
             targetLang:
@@ -385,8 +424,8 @@ async function translateText() {
         completionInfoElem.innerHTML = `${result.processing_time / 1000} s, ${
             result.total_tokens
         } tokens, ${orgFloor(0.000002 * result.total_tokens, 4)} USD`;
-        // , ${orgFloor(0.000002 * result.total_tokens * 130, 3)} JPY
     } catch (error) {
+        // 失敗したら通知投げる
         console.error(error);
         createNotification(
             "error",
@@ -398,21 +437,23 @@ async function translateText() {
         completionInfoElem.innerHTML = `${infoText}`;
     }
 
+    //placeholder更新
     targetTextarea.placeholder = `${placeholder}`;
 
+    //翻訳ボタン制御
     sourceTextarea.addEventListener("input", updateTranslateButton);
     languageSelect.addEventListener("change", updateTranslateButton);
     updateTranslateButton();
-    updateUsage();
-}
+    updateUsageUI();
+});
 
-translateButton.addEventListener("click", translateText);
+// モーダルを制御する処理
 
-// モーダル制御
 const modalBtn = document.querySelector("#modal-btn");
 const modal = document.querySelector("#modal");
 const closeBtn = document.querySelector("#modal-close");
 
+// アニメーションの実装はnotification.jsを参考にした
 const modalInDuration = 200;
 const modalOutDuration = 200;
 const modalInAnimation = `modalFadeIn ${modalInDuration}ms ease-out forwards`;
@@ -431,7 +472,7 @@ closeBtn.addEventListener("click", () => {
     }, modalOutDuration);
 });
 
-//モーダルの外側をクリックしたときにも非表示にする;
+//モーダルの外側をクリックしたときにも非表示にする
 window.addEventListener("click", ({ target }) => {
     if (target === modal) {
         modal.style.animation = `${modalOutAnimation}`;
@@ -441,30 +482,37 @@ window.addEventListener("click", ({ target }) => {
     }
 });
 
+// 設定を制御する処理
+
 const defaultSettingsData = {
     storage_isFirstVisit: true,
     storage_apikey: "",
 };
 
+// 設定を初期化する関数
 function initializeSettings() {
-    ls.set(defaultSettingsData);
+    lsHandler.set(defaultSettingsData);
 }
 
 // 初回訪問判定
-
+// TODO:DOMContentLoadedで書き直す
 function checkFirstVisit() {
-    const isFirstVisit = ls.get(["storage_isFirstVisit"]).storage_isFirstVisit;
+    const isFirstVisit = lsHandler.get([
+        "storage_isFirstVisit",
+    ]).storage_isFirstVisit;
 
     if (typeof isFirstVisit !== "boolean" || isFirstVisit) {
         initializeSettings();
         modal.style.display = "block";
     } else {
-        apikeyInput.value = `${ls.get(["storage_apikey"]).storage_apikey}`;
-        updateUsage();
+        apikeyInput.value = `${
+            lsHandler.get(["storage_apikey"]).storage_apikey
+        }`;
+        updateUsageUI();
         return;
     }
 
-    ls.set({ storage_isFirstVisit: false });
+    lsHandler.set({ storage_isFirstVisit: false });
     createNotification(
         "default",
         "You need to set up your API key before using ChatGPTranslate.",
@@ -475,30 +523,37 @@ function checkFirstVisit() {
 
 checkFirstVisit();
 
-// 設定制御
+// 設定の保存/初期化制御
 
 settingSaveButton.addEventListener("click", () => {
     const data = {
         storage_apikey: `${apikeyInput.value}`,
     };
-    ls.set(data);
+    lsHandler.set(data);
     createNotification("success", "Settings have been saved.", 5000, false);
-    updateUsage();
+    updateUsageUI();
 });
 
 settingResetButton.addEventListener("click", () => {
-    initializeSettings();
-    createNotification(
-        "success",
-        "Settings have been reset. Site will be reloaded in five seconds...",
-        5000,
-        false
+    const resetConfirm = confirm(
+        "Are you sure you want to reset settings to their default values? This action cannot be undone."
     );
-    setTimeout(() => {
-        window.location.reload();
-    }, 5000);
+
+    if (resetConfirm) {
+        initializeSettings();
+        createNotification(
+            "success",
+            "Settings have been reset. Site will be reloaded in five seconds...",
+            10000,
+            false
+        );
+        setTimeout(() => {
+            window.location.reload();
+        }, 5000);
+    }
 });
 
+// 通知のテストを制御するボタン
 notificationTestButton.addEventListener("click", () => {
     const content = DOMPurify.sanitize(
         document.querySelector("#notification-test-content").value
@@ -512,4 +567,8 @@ notificationTestButton.addEventListener("click", () => {
     createNotification(type, content, duration, true);
 });
 
-twemoji.parse(document.body);
+//twimoji要処理
+document.addEventListener("DOMContentLoaded", () => {
+    twemoji.parse(document.body);
+    console.log("DOMContentLoaded");
+});
