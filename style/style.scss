@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap");
 
 html {
     //height: 100%;
@@ -36,7 +36,8 @@ body {
     flex-direction: column;
     background-color: #f9f9f9;
     margin-inline: clamp(1rem, 0.636rem + 1.82vw, 2rem);
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: sans-serif;
+    // font-family: "Noto Sans JP", sans-serif;
     // font-family: "Yu Gothic UI", "SF Pro JP", "SF Pro Display", "SF Pro Icons",
     //     "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "Meiryo UI",
     //     "Yu Gothic", "YuGothic", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック",
