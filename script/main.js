@@ -10,7 +10,10 @@ let debugMode = false;
 if (urlParams.has("debug") && urlParams.get("debug") === "true") {
     debugMode = true;
     console.log("Enabled Debug mode.");
+} else {
+    console.log("🏳️‍🌈");
 }
+
 // 初期化#1(UI生成)
 
 function generateSettingUI() {
