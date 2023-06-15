@@ -418,7 +418,7 @@ translateButton.addEventListener("click", async () => {
     completionInfoElem.innerHTML = "...";
 
     const translator = new Translator(
-        "gpt-3.5-turbo-0301",
+        "gpt-3.5-turbo",
         `${lsHandler.get([`storage_apikey`]).storage_apikey}`
     );
 
@@ -582,7 +582,7 @@ notificationTestButton.addEventListener("click", () => {
     createNotification(type, content, duration, true);
 });
 
-//twimoji要処理
+//twimojiの処理
 document.addEventListener("DOMContentLoaded", () => {
     twemoji.parse(document.body);
     console.log("DOMContentLoaded");
