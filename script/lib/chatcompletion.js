@@ -12,7 +12,7 @@ class ChatCompletion {
     constructor(model, apiKey) {
         this.model = model;
         this.apiKey = apiKey;
-        this.url = "https://api.openai.com/v1/chat/completions";
+        this.url = "https://gpt4.xunika.uk/api/openai/v1/chat/completions";
     }
 
     /**
